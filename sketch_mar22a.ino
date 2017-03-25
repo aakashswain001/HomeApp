@@ -1,10 +1,11 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid     = "Zairza Net";
-const char* password = "notyourwifi";
+const char* ssid     = "Ak";
+const char* password = "akash12345";
 
 const char* host = "studentsforhire.in";
 int var1 = D2;
+int var2=D0;
 int i =0;
 void setup() {
   Serial.begin(115200);
@@ -12,6 +13,7 @@ void setup() {
 
   // We start by connecting to a WiFi network
   pinMode(var1,OUTPUT); 
+  pinMode(var2,OUTPUT);
   Serial.println();
   Serial.println();
   Serial.print("Connecting to ");
@@ -79,16 +81,28 @@ void loop() {
   while(client.available()){
     String line = client.readStringUntil('\r');
     Serial.print(line);
-    String tm,st;
-    tm = line.substring(0,3);
-    st = line.substring(4,5);
+    String tm,st,tm2,st2;
+    tm = line.substring(0,line.indexOf('s'));
+    st = line.substring(line.indexOf('s')+1,line.indexOf('s')+2);
+    line = line.substring(line.indexOf('n')+1);
+    tm2 = line.substring(0,line.indexOf('s'));
+    st2 = line.substring(line.indexOf('s')+1,line.indexOf('s')+2);
     Serial.println(tm);
     Serial.println(st);
+    Serial.println(tm2);
+    Serial.println(st2);
     if(st.equals("1")){
     digitalWrite(var1,HIGH);
     }
     if(st.equals("0")){
       digitalWrite(var1,LOW);
+    }
+    
+    if(st2.equals("1")){
+    digitalWrite(var2,HIGH);
+    }
+    if(st2.equals("0")){
+      digitalWrite(var2,LOW);
     }
   }
   
